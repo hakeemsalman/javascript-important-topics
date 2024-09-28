@@ -11,6 +11,7 @@
   - [Q 4. What is Javascript?](#q-4-what-is-javascript)
   - [Q 5. In which mechanisms Javascript runs the code?](#q-5-in-which-mechanisms-javascript-runs-the-code)
   - [Q 6. What is Hoisting?](#q-6-what-is-hoisting)
+  - [Q 7. What is a Functions?](#q-7-what-is-a-functions)
 
 
 ## Q 1. What is Execution Context?
@@ -29,6 +30,11 @@
 
 - Code component is the place where code is executed one line at a time.
 - It is also called the **Thread of Execution**.
+
+
+<div align="right">
+    <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
+</div>
 
 ## Q 4. What is Javascript?
 
@@ -76,7 +82,43 @@ var getName = function () {
 ```
 
 
+<div align="right">
+    <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
+</div>
+
+## Q 7. What is a Functions?
+
+- A JavaScript function is a block of code designed to perform a particular task.
+- A JavaScript function is executed when "something" invokes it (calls it).
+- ```js
+  var x = 1;
+  a();
+  b(); // we are calling the functions before defining them. This will work properly, as seen in Hoisting.
+  console.log(x);
+
+  function a() {
+    var x = 10; // local scope because of separate execution context
+    console.log(x);
+  }
+
+  function b() {
+    var x = 100;
+    console.log(x);
+  }
+
+  /*
+  * Outputs:
+    10
+    100
+    1
+  */
+  ```
+
+
+
+
+
 
 <div align="right">
-    <b><a href="#table-of-contents">↥ back to top</a></b>
+    <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
 </div>
