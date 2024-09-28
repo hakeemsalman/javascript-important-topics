@@ -125,4 +125,4 @@ var getName = function () {
 </div>
 
 
-{% include dark-mode-toggle.html %}
+{% include default.html %}
