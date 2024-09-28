@@ -13,7 +13,8 @@
   - [Q 4. What is Javascript?](#q-4-what-is-javascript)
   - [Q 5. In which mechanisms Javascript runs the code?](#q-5-in-which-mechanisms-javascript-runs-the-code)
   - [Q 6. What is Hoisting?](#q-6-what-is-hoisting)
-  - [Q 7. What is a Functions?](#q-7-what-is-a-functions)
+  - [Q 8. What is window?](#q-8-what-is-window)
+  - [Q 9. What is **this**?](#q-9-what-is-this)
 
 
 ## Q 1. What is Execution Context?
@@ -55,33 +56,32 @@
 
 - **Hoisting** is a concept which enables us to extract values of variables and functions even before initialising/assigning value without getting error.
 - This is happening due to the 1st phase (memory creation phase) of the Execution Context.
+- ```js
+  getName(); // Hello World!
+  console.log(x); // undefined
+  var x = 7;
+  function getName() {
+    console.log("Hello World!");
+  }
 
-```js
-getName(); // Hello World!
-console.log(x); // undefined
-var x = 7;
-function getName() {
-  console.log("Hello World!");
-}
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  getName(); // Hello World!
+  console.log(x); // Uncaught Reference: x is not defined.
+  console.log(getName); // f getName(){ console.log("Hello World!"); }
+  function getName() {
+    console.log("Hello World!");
+  }
 
-getName(); // Hello World!
-console.log(x); // Uncaught Reference: x is not defined.
-console.log(getName); // f getName(){ console.log("Hello World!"); }
-function getName() {
-  console.log("Hello World!");
-}
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-getName(); // Uncaught TypeError: getName is not a function
-console.log(getName);
-var getName = function () {
-  console.log("Hello World!");
-};
-// The code won't execute as the first line itself throws an TypeError.
-```
+  getName(); // Uncaught TypeError: getName is not a function
+  console.log(getName);
+  var getName = function () {
+    console.log("Hello World!");
+  };
+  // The code won't execute as the first line itself throws an TypeError.
+  ```
 
 
 <div align="right">
@@ -116,13 +116,23 @@ var getName = function () {
   */
   ```
 
+## Q 8. What is window?
 
+- It is an **object**, which is created in the global space.
+- It contains lots of functions and variables.
+- These functions and variables can be accessed from anywhere in the program.
 
+## Q 9. What is **this**?
 
+- JS engine also creates a **this** keyword, which points to the **window** object at the global level.
+
+```js
+var x = 10;
+console.log(x); // 10
+console.log(this.x); // 10
+console.log(window.x); // 10
+```
 
 <div align="right">
     <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
 </div>
-
-
-{% include default.html %}
