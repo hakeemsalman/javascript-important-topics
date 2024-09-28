@@ -1,1 +1,8 @@
-theme: jekyll-theme-cayman 
+theme: jekyll-theme-cayman
+markdown: kramdown
+kramdown:
+  input: GFM
+
+# Custom CSS
+include:
+  - assets/dark-mode.css
