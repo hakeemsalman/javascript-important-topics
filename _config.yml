@@ -1,3 +1,1 @@
-title: "My JavaScript Learning Topics"
-description: "A site to document my JavaScript learning journey."
-theme: minima  # You can replace "minima" with any supported theme
+theme: jekyll-theme-cayman 
