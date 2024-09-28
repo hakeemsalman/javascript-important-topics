@@ -12,18 +12,4 @@ a.dark-mode {
   color: #bb86fc;
 }
 
-/* Light Mode Styles */
-body.dark-mode {
-  background-color: #121212;
-  color: #e0e0e0;
-}
-
-header.dark-mode, footer.dark-mode {
-  background-color: #1e1e1e;
-}
-
-a.dark-mode {
-  color: #bb86fc;
-}
-
 /* Customize any other elements as needed */

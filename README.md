@@ -1,6 +1,6 @@
 # Javascript Important Quesetions 
 
-&nbsp; <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+<!-- &nbsp; <button onclick="toggleDarkMode()">Toggle Dark Mode</button> -->
 
 > *Click &#9733; if you like the project. Your contributions are heartily ♡ welcome.*
 
@@ -136,3 +136,4 @@ console.log(window.x); // 10
 <div align="right">
     <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
 </div>
+
