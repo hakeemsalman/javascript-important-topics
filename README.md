@@ -14,7 +14,16 @@
   - [Q 5. In which mechanisms Javascript runs the code?](#q-5-in-which-mechanisms-javascript-runs-the-code)
   - [Q 6. What is Hoisting?](#q-6-what-is-hoisting)
   - [Q 8. What is window?](#q-8-what-is-window)
-  - [Q 9. What is **this**?](#q-9-what-is-this)
+  - [Q 9. What is **this** keyword?](#q-9-what-is-this-keyword)
+  - [Q 10. When variable is assigned as a **undefined**?](#q-10-when-variable-is-assigned-as-a-undefined)
+  - [Q 10. When variable is assigned as a **NOT defined**?](#q-10-when-variable-is-assigned-as-a-not-defined)
+  - [Q 11. Difference b/w **undefined** and **NOT defined**](#q-11-difference-bw-undefined-and-not-defined)
+  - [Q 13. What is Global Scope?](#q-13-what-is-global-scope)
+  - [q 14. What is Local Scope?](#q-14-what-is-local-scope)
+  - [Q 15. What is Function scope?](#q-15-what-is-function-scope)
+  - [Q 16. What is Block Scope?](#q-16-what-is-block-scope)
+  - [Q 14. What is Lexical Environment?](#q-14-what-is-lexical-environment)
+  - [Q 14. What is scope chain?](#q-14-what-is-scope-chain)
 
 
 ## Q 1. What is Execution Context?
@@ -44,6 +53,7 @@
 - JS is a **synchronous**, **single-threaded language**
   - *Synchronous*:- In a specific synchronous order.
   - *Single-threaded*:- One command at a time.
+  - JS is a **loosely typed** / **weakly typed** language. 
   
 ## Q 5. In which mechanisms Javascript runs the code?
 
@@ -121,10 +131,12 @@
 - It is an **object**, which is created in the global space.
 - It contains lots of functions and variables.
 - These functions and variables can be accessed from anywhere in the program.
+- If we create any variable in the global scope, then the variables get attached to the global object.
 
-## Q 9. What is **this**?
+## Q 9. What is **this** keyword?
 
 - JS engine also creates a **this** keyword, which points to the **window** object at the global level.
+- At global level, `this` `===` `window`
 
 ```js
 var x = 10;
@@ -132,6 +144,148 @@ console.log(x); // 10
 console.log(this.x); // 10
 console.log(window.x); // 10
 ```
+
+<div align="right">
+    <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
+</div>
+
+## Q 10. When variable is assigned as a **undefined**?
+
+- In first phase (memory allocation) JS assigns each variable a placeholder called **undefined**.
+- **undefined** is when memory is allocated for the variable, but no value is assigned yet.
+
+## Q 10. When variable is assigned as a **NOT defined**?
+
+- If an object/variable is not even declared/found in memory allocation phase, and tried to access it then it is **Not defined**
+- `Not Defined !== Undefined`
+
+
+## Q 11. Difference b/w **undefined** and **NOT defined**
+
+- When variable is declared but not assigned value, its current value is undefined.
+- But when the variable itself is not declared but called in code, then it is not defined.
+- ```js
+  console.log(x); // undefined
+  var x = 25;
+  console.log(x); // 25
+  console.log(a); // Uncaught ReferenceError: a is not defined
+  ```
+
+> **Never** assign `undefined` to a variable *manually*. Let it happen on it's own accord.
+
+<div align="right">
+    <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
+</div>
+
+
+## Q 12. What is Scope?
+
+- **Scope** in Javascript is directly related to **Lexical Environment**.
+- ```js
+  function a() {
+    console.log(b); // 10
+    // Instead of printing undefined it prints 10, So somehow this a function could access the variable b outside the function scope.
+  }
+  var b = 10;
+  a();
+
+  // xxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  function a() {
+    var b = 10;
+    c();
+    function c() {
+      console.log(b); // 10
+    }
+  }
+  a();
+  console.log(b); // Error, Not Defined
+  // A function can access a global variable, but the global execution context can't access any local variable.
+  ```
+
+## Q 13. What is Global Scope?
+
+- When a variable is declared outside any function, it belongs to the Global Scope.
+- This means it can be accessed and modified from any other part of the code,
+  
+<details>
+<summary>SHOW CODE</summary>
+
+```js
+var globalVar = "I am a global variable";
+
+function accessGlobalVar() {
+    // Accessing the global variable within a function
+    console.log(globalVar);
+}
+
+accessGlobalVar(); // Output: I am a global variable
+console.log(globalVar); // Output: I am a global variable
+```
+
+</details>
+
+## q 14. What is Local Scope?
+
+- It refers to variables declared within a **function** or a **block** (in case of `let` and `const` in ES6)
+- These variables are only accessible within that function or block, making them hidden from the rest of the program.
+
+## Q 15. What is Function scope?
+
+- Variables declared within a function using `var`, `let`, or `const` are scoped to the function.
+
+<details>
+<summary>SHOW CODE</summary>
+
+```js
+function localFunctionScope() {
+     var functionScopedVar = "I am a local variable";
+     // Output: I am a local variable
+     console.log(functionScopedVar);
+}
+
+localFunctionScope(); // Output: I am a local variable
+// Uncaught ReferenceError: functionScopedVar is not defined
+console.log(localVar);
+```
+
+</details>
+
+## Q 16. What is Block Scope?
+
+- Introduced in ES6 with `let` and `const`, variables declared inside a block `{}` are only accessible within that block.
+
+```js
+if (true) {
+     let blockScopedVar = "I am block-scoped";
+     const anotherBlockScopedVar = "So am I";
+     var globalVar = "I am global!!!";
+     console.log(blockScopedVar); // Accessible here
+     console.log(anotherBlockScopedVar); // Accessible here
+}
+
+// Uncaught ReferenceError: blockScopedVar is not defined
+console.log(blockScopedVar);
+// Uncaught ReferenceError: anotherBlockScopedVar
+// is not defined
+console.log(anotherBlockScopedVar);
+// Output: I am global!!!
+console.log(globalVar);
+```
+
+
+## Q 14. What is Lexical Environment?
+
+- JavaScript engines during the runtime to manage and access the variables based on the Lexical Scope.
+- `Lexical Environment` = `local memory` `+` `lexical env of its parent`.
+- Hence, Lexical Environement is the local memory along with the lexical environment of its parent
+- Whenever an Execution Context is created, a Lexical environment(LE) is also created and is referenced in the local Execution Context(in memory space).
+
+> **Lexical**: In hierarchy, In order
+
+## Q 14. What is scope chain?
+
+- The process of going one by one to parent and checking for values is called scope chain or Lexcial environment chain.
 
 <div align="right">
     <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
