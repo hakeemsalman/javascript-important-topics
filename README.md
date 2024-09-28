@@ -1,5 +1,7 @@
 # Javascript Important Quesetions
 
+- Series from Namaste Javascript (Akshay Saini)
+
 ## Q 1. What is Execution Context
 
 1. Everything in JS happens inside the `execution context`.
