@@ -5,4 +5,4 @@ kramdown:
 
 # Custom CSS
 include:
-  - assets/dark-mode.css
+  - assets/css/dark-mode.css
