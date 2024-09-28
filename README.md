@@ -1,4 +1,6 @@
-# Javascript Important Quesetions
+# Javascript Important Quesetions 
+
+&nbsp; <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
 > *Click &#9733; if you like the project. Your contributions are heartily ♡ welcome.*
 
@@ -118,7 +120,9 @@ var getName = function () {
 
 
 
-
 <div align="right">
     <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
 </div>
+
+
+{% include dark-mode-toggle.html %}
