@@ -29,6 +29,21 @@
     - [Summary:](#summary)
   - [Q 19. How `let`, `const` and `var` behave differently in hoisting?](#q-19-how-let-const-and-var-behave-differently-in-hoisting)
     - [Hoisting of `var`](#hoisting-of-var)
+  - [Q 24. What is Shadowing?](#q-24-what-is-shadowing)
+    - [Shadowing with `let`:](#shadowing-with-let)
+    - [Shadowing with `var`:](#shadowing-with-var)
+  - [Q 25. What is illegal Shadowing?](#q-25-what-is-illegal-shadowing)
+  - [Q 26. What is a Closures?](#q-26-what-is-a-closures)
+  - [Q 27. Advantages of Closures?](#q-27-advantages-of-closures)
+    - [1. **Encapsulation and Data Privacy**](#1-encapsulation-and-data-privacy)
+    - [2. **Maintaining State**](#2-maintaining-state)
+    - [3. **Partial Application and Function Currying**](#3-partial-application-and-function-currying)
+    - [4. **Callback Functions and Event Handlers**](#4-callback-functions-and-event-handlers)
+    - [5. **Creating Factory Functions**](#5-creating-factory-functions)
+    - [6. **Avoiding Global Variables**](#6-avoiding-global-variables)
+    - [7. **Memoization**](#7-memoization)
+    - [8. **Improving Performance**](#8-improving-performance)
+    - [Conclusion](#conclusion)
 
 
 ## Q 1. What is Execution Context?
@@ -489,6 +504,286 @@ Both concepts are tightly connected and are essential for understanding how Java
 
     </details>
   </details>
+
+<div align="right">
+    <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
+</div>
+
+
+## Q 24. What is Shadowing?
+
+- Shadowing in JavaScript refers to a situation where a variable in a local scope (like inside a function or block) has the same name as a variable in an outer scope.
+- In such cases, the inner variable **shadows** or **hides** the outer variable within its scope, making the outer variable inaccessible until the inner scope finishes execution.
+
+### Shadowing with `let`:
+
+- With `let` and `const`Shadowing can happen in both **function** and **block** level/
+
+```js
+let x = 10; // outer variable
+
+function myFunction() {
+    let x = 20; // inner variable shadows the outer one
+    console.log(x); // prints 20 (inner 'x' shadows the outer 'x')
+}
+
+myFunction();
+console.log(x); // prints 10 (outer 'x' is still accessible)
+```
+
+### Shadowing with `var`:
+
+- variables declared with `var` DO NOT have **block** scope. They are **function-scoped**.
+- This can lead to some confusing shadowing behavior:
+
+```js
+// BLOCK LEVEL
+// -------------
+var y = 30;
+if (true) {
+    var y = 40; // This will overwrite the outer 'y' due to function scope of 'var'
+    console.log(y); // 40
+}
+console.log(y); // 40 (the outer 'y' has been modified)
+
+
+
+// FUNCTION LEVEL
+// --------------
+var x = 10; // global scope
+function myFunction() {
+    var x = 20; // shadows the global 'x' inside the function
+    console.log(x); // 20 (local 'x' shadows global 'x' within the function)
+}
+
+myFunction();
+console.log(x); // 10 (global 'x' remains unaffected)
+
+```
+
+<div align="right">
+    <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
+</div>
+
+## Q 25. What is illegal Shadowing?
+
+- **Illegal shadowing** in JavaScript occurs when a variable declared with `let` or `const` in a global scope attempts to shadow a variable declared with `var` in the same or a broader scope, in such a way that it breaks the scope rules of JavaScript. 
+- But it is **valid** to shadow a `let` using a `let`. However, we can shadow var with let.
+```js
+// Shadowing
+var a = 20;
+{
+  let a = 10;
+  console.log(a)  // 10
+}
+console.log(a)    // 20
+```
+
+```js
+// Illegal shadowing
+let a = 20;
+{
+  var a = 10;   // SyntaxError: Identifier 'a' has already been declared
+  console.log(a)
+}
+console.log(a)
+```
+
+## Q 26. What is a Closures?
+
+-  **Closure** is a function that has access to its outer function scope even after the function has returned.
+-  A closure can remember and access variables and arguments reference of its outer function even after the function has returned.
+-  ```js
+  function z() {
+    var b = 900;
+    function x() {
+      var a = 7;
+      function y() {
+        console.log(a, b);
+      }
+      y();
+    }
+    x();
+  }
+  z(); // 7 900
+  ```
+- ```js
+  function x() {
+    var a = 7;
+    function y() {
+      console.log(a);
+    }
+    return y;
+  }
+  var z = x();
+  console.log(z); // value of z is entire code of function y.
+  ```
+
+## Q 27. Advantages of Closures?
+
+Closures are a powerful feature in JavaScript and many other programming languages that allow a function to retain access to its lexical scope even when that function is executed outside of its original scope. Here are some key advantages of using closures:
+
+### 1. **Encapsulation and Data Privacy**
+Closures allow you to create private variables. A closure can "enclose" variables in a function scope, preventing them from being accessed directly from outside. This is useful for creating modules or libraries where you want to hide certain data from the global scope.
+
+**Example:**
+```javascript
+function createCounter() {
+    let count = 0; // Private variable
+    return {
+        increment: function() {
+            count++;
+            return count;
+        },
+        decrement: function() {
+            count--;
+            return count;
+        },
+        getCount: function() {
+            return count;
+        }
+    };
+}
+
+const counter = createCounter();
+console.log(counter.increment()); // 1
+console.log(counter.increment()); // 2
+console.log(counter.getCount()); // 2
+console.log(counter.decrement()); // 1
+```
+
+### 2. **Maintaining State**
+Closures can be used to maintain state in an asynchronous environment, such as event handlers, callbacks, or promises. This is useful in situations where you want to remember data between function calls.
+
+**Example:**
+```javascript
+function makeGreeting(greeting) {
+    return function(name) {
+        return `${greeting}, ${name}!`;
+    };
+}
+
+const sayHello = makeGreeting('Hello');
+console.log(sayHello('Alice')); // "Hello, Alice!"
+```
+
+### 3. **Partial Application and Function Currying**
+Closures enable partial application and currying, allowing you to create specialized versions of functions that can be reused with preset parameters.
+
+**Example:**
+```javascript
+function multiply(factor) {
+    return function(number) {
+        return number * factor;
+    };
+}
+
+const double = multiply(2);
+console.log(double(5)); // 10
+```
+
+### 4. **Callback Functions and Event Handlers**
+Closures are widely used in callback functions and event handlers. They allow you to retain access to variables in the scope where the callback was defined.
+
+**Example:**
+```javascript
+function setTimeoutWithClosure() {
+    for (var i = 0; i < 3; i++) {
+        setTimeout(function() {
+            console.log(i); // Outputs 3 three times due to closure capturing the loop variable
+        }, 1000);
+    }
+}
+
+setTimeoutWithClosure(); // Outputs 3 three times
+```
+
+To fix this issue, you can use an IIFE (Immediately Invoked Function Expression) to create a new scope:
+
+```javascript
+function setTimeoutWithIIFE() {
+    for (var i = 0; i < 3; i++) {
+        (function(i) {
+            setTimeout(function() {
+                console.log(i); // Outputs 0, 1, 2
+            }, 1000);
+        })(i);
+    }
+}
+
+setTimeoutWithIIFE(); // Outputs 0, 1, 2
+```
+
+### 5. **Creating Factory Functions**
+Closures can be used to create factory functions that generate other functions. This is helpful for creating functions with similar behavior but different configurations.
+
+**Example:**
+```javascript
+function createMultiplier(factor) {
+    return function(x) {
+        return x * factor;
+    };
+}
+
+const triple = createMultiplier(3);
+console.log(triple(5)); // 15
+```
+
+### 6. **Avoiding Global Variables**
+Closures can help avoid polluting the global namespace by allowing you to encapsulate variables and functions within a local scope, preventing them from being accessed globally.
+
+**Example:**
+```javascript
+(function() {
+    var localVariable = 'I am local!';
+    
+    function showLocal() {
+        console.log(localVariable);
+    }
+
+    showLocal(); // Outputs: "I am local!"
+})();
+
+console.log(typeof localVariable); // undefined
+```
+
+### 7. **Memoization**
+Closures can be used to implement memoization, which is an optimization technique that caches results of expensive function calls and returns the cached result when the same inputs occur again.
+
+**Example:**
+```javascript
+function memoize(fn) {
+    const cache = {};
+    return function(...args) {
+        const key = JSON.stringify(args);
+        if (cache[key]) {
+            return cache[key];
+        }
+        const result = fn(...args);
+        cache[key] = result;
+        return result;
+    };
+}
+
+const add = (a, b) => a + b;
+const memoizedAdd = memoize(add);
+console.log(memoizedAdd(1, 2)); // 3 (calculated)
+console.log(memoizedAdd(1, 2)); // 3 (cached)
+```
+
+### 8. **Improving Performance**
+Closures can help improve performance by allowing the reuse of variables within their scope without needing to pass them around, which can reduce the overhead of creating new variables or objects in certain situations.
+
+### Conclusion
+Closures are a fundamental concept in JavaScript that offer numerous advantages, including data privacy, state maintenance, and powerful functional programming techniques. They allow for more flexible and modular code, leading to better maintainability and readability. Understanding closures is essential for becoming proficient in JavaScript and using it effectively in complex applications. If you have any further questions or need examples on specific use cases, feel free to ask!
+
+<div align="right">
+    <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
+</div>
+
+
+
+
 <div align="right">
     <b><a href="#javascript-important-quesetions">↥ back to top</a></b>
 </div>
