@@ -44,6 +44,8 @@
     - [7. **Memoization**](#7-memoization)
     - [8. **Improving Performance**](#8-improving-performance)
     - [Conclusion](#conclusion)
+  - [Q 28. What is the output of the below code?](#q-28-what-is-the-output-of-the-below-code)
+  - [Q 29. Interview Questions](#q-29-interview-questions)
 
 
 ## Q 1. What is Execution Context?
@@ -782,6 +784,78 @@ Closures are a fundamental concept in JavaScript that offer numerous advantages,
 </div>
 
 
+## Q 28. What is the output of the below code?
+
+```js
+function x() {
+  var i = 1;
+  setTimeout(function () {
+    console.log(i);
+  }, 3000);
+  console.log("Hello world");
+}
+x();
+```
+
+<details>
+  <summary>SHOW SOLUTION</summary>
+
+  ```console
+  Hello world
+  1 // after waiting 3 seconds
+  ```
+
+</details>
+
+
+## Q 29. Interview Questions
+
+
+```js
+function x() {
+  for (var i = 1; i <= 5; i++) {
+    setTimeout(function () {
+      console.log(i);
+    }, i * 1000);
+  }
+  console.log("Hello world");
+}
+x();
+```
+
+<details>
+  <summary>SHOW SOLUTION</summary>
+
+  ```js
+  // Output:
+  // Hello world
+  // 6
+  // 6
+  // 6
+  // 6
+  // 6
+  ```
+
+</details>
+
+- To avoid this, we can use `let` instead of `var` as `let` has Block scope. For each iteration, the `i` is a new variable altogether(new copy of `i`).
+- Everytime setTimeout is run, the inside function forms closure with new variable `i`
+- But what if interviewer ask us to implement using `var` **only**?
+- ```js
+  function x() {
+    for (var i = 1; i <= 5; i++) {
+      function close(i) {
+        setTimeout(function () {
+          console.log(i);
+        }, i * 1000);
+        // put the setT function inside new function close()
+      }
+      close(i); // everytime you call close(i) it creates new copy of i. Only this time, it is with var itself!
+    }
+    console.log("Hello world");
+  }
+  x();
+```
 
 
 <div align="right">
